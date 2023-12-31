@@ -3,6 +3,14 @@ import java.util.Scanner;
 
 public class path
 {
+	public static void print_result(int[] arr1, String[] arr2)
+	{
+		int len = arr1.length;
+		for (int i = 0; i < len; i++)
+			System.out.println("The distance to the " + i + " node is " +
+					arr1[i] + "\nAnd it's path is " + arr2[i]);
+
+	}
 	public static int[][] create_graph()
 	{
 		Scanner input = new Scanner(System.in);
@@ -43,11 +51,13 @@ public class path
                                 {
                                         if (graph[n][adj] == 0 || is_solved[adj] == true)
                                                 continue;
-                                        if (dist[adj] == -1)
-                                                dist[adj] = graph[n][adj] + dist[n];
-                                        if (shortest[0] == -1 || dist[adj] < shortest[0])
-                                        {
+                                        if (dist[adj] == -1 || (graph[n][adj] + dist[n]) < dist[adj])
+					{
+						dist[adj] = graph[n][adj] + dist[n];
                                                 paths[adj] = paths[n] + "->" + String.valueOf(adj);
+					}
+					if (shortest[0] == -1 || dist[adj] < shortest[0])
+                                        {
                                                 shortest[0] = dist[adj];
                                                 shortest[1] = adj;
                                         }
@@ -57,8 +67,7 @@ public class path
                         shortest[0] = -1;
                         shortest[1] = -1;
                 }
-                System.out.println(Arrays.toString(paths));
-                System.out.println(Arrays.toString(dist));
+		print_result(dist, paths);
 	}
 	public static void main(String[] args)
 	{
